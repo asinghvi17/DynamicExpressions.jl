@@ -53,7 +53,7 @@ Sample a node from a tree according to the sampler `sampler`.
 function rand(rng::AbstractRNG, sampler::NodeSampler{N,F,Nothing}) where {N,F}
     n = count(sampler.filter, get_tree(sampler.tree); sampler.break_sharing)
     if n == 0
-        error("No nodes matching $(sampler.filter) were found in $(sampler.tree).")
+        error("No nodes matching the requested sampler filter were found.")
     end
     idx = rand(rng, 1:n)
     return _get_node(get_tree(sampler.tree), sampler.filter, idx, sampler.break_sharing)
@@ -64,7 +64,7 @@ function rand(rng::AbstractRNG, sampler::NodeSampler{N,F,W}) where {N,F,W<:Funct
         sampler.filter, sampler.weighting, t, Float64; sampler.break_sharing
     )
     if length(weights) == 0
-        error("No nodes matching $(sampler.filter) were found in $(sampler.tree).")
+        error("No nodes matching the requested sampler filter were found.")
     end
     idx = _sample_idx(rng, weights)
     return _get_node(t, sampler.filter, idx, sampler.break_sharing)
